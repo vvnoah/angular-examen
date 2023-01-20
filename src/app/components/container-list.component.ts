@@ -12,18 +12,34 @@ import { Data } from '../data.service';
       </div>
       <button (click)="add_container(name.value)">Container toevoegen</button>
     </div>
-    <app-container 
-      *ngFor="let container of this.service.containers;
-      index as i"
-      [container_index]="i"
-      (mouseup)="move_color(i)">
-    </app-container>
+    <div class="grid">
+      <app-container 
+        class="container"
+        *ngFor="let container of this.service.containers;
+        index as i"
+        [container_index]="i"
+        (mouseup)="move_color(i)">
+      </app-container>
+    </div>
 
   `,
   styles: [`
     .row {
       display: flex;
-      gap: 1rem
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    @media (min-width: 800px){
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+      
+      .container {
+        flex-basis: 600px;
+      }
     }
   `]
 })
