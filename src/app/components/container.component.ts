@@ -5,36 +5,50 @@ import { Data } from '../data.service';
 @Component({
   selector: 'app-container',
   template: `
-
-        <div>
-            <h1>{{this.service.containers[this.container_index].name}}</h1>
-            <div>
-              <button (click)="add_color()">Add color</button>
-              <button (click)="duplicate_container()">Duplicate container</button>
-              <button (click)="remove_container()">Remove container</button>
-            </div>
+        <div class="container">
+          <h1>{{this.service.containers[this.container_index].name}}</h1>
+          <div class="row">
+              <div class="column">
+                <input type="text" #name>
+                <button (click)="rename_container(name.value)">Rename container</button>
+              </div>
+              <div class="column">
+                <button (click)="add_color()">Add color</button>
+                <button (click)="duplicate_container()">Duplicate container</button>
+                <button (click)="remove_container()">Remove container</button>
+              </div>
+          </div>
+          <hr>
+          <app-color
+            *ngFor="let color of this.service.containers[this.container_index].colors
+            index as i"
+            [container_index]="container_index"
+            [color_index]="i"
+            (mousedown)="set_origin_color(i)"
+          ></app-color>
         </div>
-        <hr>
-        <app-color
-          *ngFor="let color of this.service.containers[this.container_index].colors
-          index as i"
-          [container_index]="container_index"
-          [color_index]="i"
-          (mousedown)="set_origin_color(i)"
-        ></app-color>
 
   `,
   styles: [`
+
+        .container {
+          margin-top: 2rem;
+        }
   
-        div {
-            margin-top: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+        .row {
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        
+        .column {
+          display: flex;
+          gap: 0.5rem;
         }
 
         button {
-            max-height: 1.5rem;
+            min-height: 1.5rem;
         }
 
         h1 {
@@ -75,10 +89,19 @@ export class ContainerComponent {
   }
 
   //=================================================================
+  // Renaming a container
+  //=================================================================
+  rename_container(value:string){
+    this.service.containers[this.container_index].name = value;
+  }
+
+  //=================================================================
   // Duplicating a container
   //=================================================================
   duplicate_container(){
-    this.service.containers.push(JSON.parse(JSON.stringify(this.service.containers[this.container_index])));
+    let duplicated_container = JSON.parse(JSON.stringify(this.service.containers[this.container_index]));
+    duplicated_container.name = duplicated_container.name + ' - Duplicate';
+    this.service.containers.push(duplicated_container);
   }
 
   //=================================================================

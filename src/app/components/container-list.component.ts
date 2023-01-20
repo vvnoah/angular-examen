@@ -6,11 +6,11 @@ import { Data } from '../data.service';
   template: `
 
     <div class="row">
-      <div>
+      <div class="column">
         <label for="container-name">Container name: </label>
         <input id="container-name" type="text" #name>
+        <button (click)="add_container(name.value)">Container toevoegen</button>
       </div>
-      <button (click)="add_container(name.value)">Container toevoegen</button>
     </div>
     <div class="grid">
       <app-container 
@@ -26,11 +26,16 @@ import { Data } from '../data.service';
   styles: [`
     .row {
       display: flex;
-      gap: 1rem;
       flex-wrap: wrap;
     }
+    
+    .column {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
 
-    @media (min-width: 800px){
+    @media (min-width: 1000px){
       .grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
