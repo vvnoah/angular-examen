@@ -12,6 +12,7 @@ import { Data } from '../data.service';
         <button (click)="add_container(name.value)">Container toevoegen</button>
       </div>
     </div>
+    
     <div class="grid">
       <app-container 
         class="container"
